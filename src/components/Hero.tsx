@@ -43,7 +43,7 @@ const Hero: React.FC = () => {
           <div className="space-y-4 md:space-y-6">
             <h1 className="text-4xl md:text-6xl font-semibold leading-none tracking-tight">
               <span className="block">Secret Santa 2025</span>
-              <span className="block mt-1 md:mt-2">Rheinmetall Edition</span>
+              <span className="block mt-1 md:mt-2">Rhi Edition</span>
             </h1>
 
             <p className="max-w-md text-xs md:text-sm text-brightSnow/90">
