@@ -16,7 +16,7 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({
   onRemove,
 }) => {
   return (
-    <div className="card mt-4">
+    <div className="card">
       <div className="flex items-center justify-between gap-2 mb-2">
         <h2 className="text-lg font-semibold tracking-tight flex items-center gap-2">
           🧑‍🎄 Partecipanti iscritti (finché non se pentono)

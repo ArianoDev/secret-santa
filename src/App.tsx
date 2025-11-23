@@ -178,7 +178,7 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen">
-      <div className="max-w-6xl mx-auto px-4 py-6 md:py-8 space-y-6 md:space-y-8">
+      <div className="max-w-6xl mx-auto px-4 py-6 md:py-8">
         {/* HERO */}
         <Hero onOpenEnroll={() => setIsEnrollModalOpen(true)} />
 

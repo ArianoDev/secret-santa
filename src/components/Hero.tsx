@@ -16,7 +16,6 @@ const Hero: React.FC<HeroProps> = ({ onOpenEnroll }) => {
           <div className="absolute left-1/3 bottom-10 h-2 w-2 rounded-full bg-brightSnow/30" />
         </div>
 
-        {/* Top bar: brand + azioni */}
         <div className="relative mb-6 flex items-center justify-between text-xs md:text-sm">
           <span className="font-semibold tracking-[0.16em] uppercase">
             Drop it like it's hot!

@@ -11,7 +11,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, title, onClose, children }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+    <div id="mymodal" className="fixed inset-0 z-40 flex items-center justify-center bg-black/70 backdrop-blur-sm">
       <div className="relative max-h-[90vh] w-full max-w-lg overflow-hidden rounded-3xl bg-slate-950/95 border border-blueSpruce/70 shadow-2xl shadow-black/80">
         {/* Header */}
         <div className="flex items-center justify-between px-5 pt-4 pb-2 border-b border-slate-800/70">
