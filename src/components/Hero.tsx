@@ -1,6 +1,10 @@
 import React from "react";
 
-const Hero: React.FC = () => {
+interface HeroProps {
+  onOpenEnroll: () => void;
+}
+
+const Hero: React.FC<HeroProps> = ({ onOpenEnroll }) => {
   return (
     <section className="mb-6 md:mb-8">
       <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-brickEmber via-flagRed to-brickEmber px-5 md:px-10 py-6 md:py-10 text-brightSnow shadow-xmas-soft">
@@ -21,10 +25,7 @@ const Hero: React.FC = () => {
             <button
               type="button"
               className="rounded-full bg-brightSnow px-3.5 py-1 text-[11px] md:text-xs font-semibold text-flagRed shadow-md shadow-brickEmber/40 hover:bg-brightSnow/90 transition-colors"
-              onClick={() => {
-                const el = document.getElementById("secret-santa-app");
-                if (el) el.scrollIntoView({ behavior: "smooth" });
-              }}
+              onClick={onOpenEnroll}
             >
               Join
             </button>
@@ -51,12 +52,9 @@ const Hero: React.FC = () => {
               <button
                 type="button"
                 className="rounded-full bg-brightSnow px-5 py-2 text-sm font-semibold text-flagRed shadow-lg shadow-brickEmber/50 hover:bg-brightSnow/95 transition-colors"
-                onClick={() => {
-                  const el = document.getElementById("secret-santa-app");
-                  if (el) el.scrollIntoView({ behavior: "smooth" });
-                }}
+                onClick={onOpenEnroll}
               >
-                Create Secret Santa
+                Unisciti alla magia del natale
               </button>
               <span className="text-[11px] md:text-xs text-brightSnow/80">
                 ✨ Nessuna renna verrà maltrattata per organizzare questo evento ✨
@@ -68,7 +66,6 @@ const Hero: React.FC = () => {
           <div className="relative">
             <div className="mx-auto flex h-52 w-52 md:h-64 md:w-64 items-center justify-center rounded-full bg-brightSnow shadow-2xl shadow-brickEmber/70">
               <div className="flex h-40 w-40 md:h-48 md:w-48 items-center justify-center rounded-full bg-gradient-to-b from-brickEmber/10 via-brickEmber/5 to-brightSnow">
-                {/* SVG Santa */}
                 <svg
                   height="118"
                   width="118"

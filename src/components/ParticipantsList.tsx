@@ -26,9 +26,9 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({
           {participants.length} iscritt{participants.length === 1 ? "o" : "i"}
         </span>
       </div>
-
       {participants.length === 0 ? (
         <p className="text-xs text-slate-300">
+                         
           Nessun partecipante ancora iscritto. Inizia aggiungendo qualcuno 🎁
         </p>
       ) : (

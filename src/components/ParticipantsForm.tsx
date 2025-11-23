@@ -1,12 +1,17 @@
 import React, { useState } from "react";
-import { GameMode } from "../types";
+import { GameMode, Participant } from "../types";
 
 interface ParticipantsFormProps {
+  participants: Participant[];
   onAdd: (data: { firstName: string; lastName: string; preferredMode: GameMode }) => void;
   disabled: boolean;
 }
 
-const ParticipantsForm: React.FC<ParticipantsFormProps> = ({ onAdd, disabled }) => {
+const ParticipantsForm: React.FC<ParticipantsFormProps> = ({
+  participants,
+  onAdd,
+  disabled,
+}) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [preferredMode, setPreferredMode] = useState<GameMode | "">("");
@@ -17,9 +22,25 @@ const ParticipantsForm: React.FC<ParticipantsFormProps> = ({ onAdd, disabled }) 
     if (disabled) return;
 
     const newErrors: string[] = [];
+
     if (!firstName.trim()) newErrors.push("Il nome è obbligatorio, mica posso indovinarlo.");
-    if (!lastName.trim()) newErrors.push("Il cognome è obbligatorio, sennò pare una lista de Pokémon.");
+    if (!lastName.trim()) newErrors.push("Il cognome pure, sennò pare una lista de Pokémon.");
     if (!preferredMode) newErrors.push("Seleziona una modalità di gioco.");
+
+    const normFirst = firstName.trim().toLowerCase();
+    const normLast = lastName.trim().toLowerCase();
+
+    const alreadyExists = participants.some(
+      (p) =>
+        p.firstName.trim().toLowerCase() === normFirst &&
+        p.lastName.trim().toLowerCase() === normLast
+    );
+
+    if (alreadyExists) {
+      newErrors.push(
+        "Sembri già iscritto con questo nome e cognome. Se non sei stato tu, cerca "+firstName+" "+lastName+" e parlatene come persone civili."
+      );
+    }
 
     setErrors(newErrors);
     if (newErrors.length > 0) return;
@@ -36,16 +57,8 @@ const ParticipantsForm: React.FC<ParticipantsFormProps> = ({ onAdd, disabled }) 
   };
 
   return (
-    <div className="card">
-      <div className="flex items-center gap-2 mb-1.5">
-        <h2 className="text-lg font-semibold tracking-tight flex items-center gap-2">
-          🎅 Iscrizione partecipanti
-        </h2>
-        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-900/50 border border-emerald-500/50 px-2 py-0.5 text-[10px] uppercase tracking-[0.12em] text-emerald-200">
-          Step 1
-        </span>
-      </div>
-      <p className="text-xs text-slate-300 mb-3">
+    <div className="space-y-3">
+      <p className="text-xs text-slate-300 mb-1">
         Iscriviti lasciando nome, cognome (veri non il nickname di Twich) e la modalità preferita.
       </p>
 
@@ -129,7 +142,7 @@ const ParticipantsForm: React.FC<ParticipantsFormProps> = ({ onAdd, disabled }) 
       </form>
 
       {errors.length > 0 && (
-        <div className="mt-3 rounded-xl border border-red-500/60 bg-red-950/50 px-3 py-2 text-xs text-red-100 space-y-1">
+        <div className="mt-2 rounded-xl border border-red-500/60 bg-red-950/50 px-3 py-2 text-xs text-red-100 space-y-1">
           {errors.map((err, idx) => (
             <p key={idx}>• {err}</p>
           ))}

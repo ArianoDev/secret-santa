@@ -13,6 +13,7 @@ import EnrollmentControls from "./components/EnrollmentControls";
 import DrawingArea from "./components/DrawingArea";
 import AdvanceDrawArea from "./components/AdvanceDrawArea";
 import Hero from "./components/Hero";
+import Modal from "./components/Modal";
 
 const STORAGE_KEY = "secret-santa-app-v2";
 
@@ -52,9 +53,6 @@ function generateId() {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 }
 
-/**
- * Genera una derangement (permutazione senza punti fissi) di [0..n-1]
- */
 function generateDerangement(n: number): number[] {
   if (n <= 1) return [];
 
@@ -88,6 +86,8 @@ const App: React.FC = () => {
   const [enrollmentOpen, setEnrollmentOpen] = useState<boolean>(true);
   const [drawStateB, setDrawStateB] = useState<DrawStateB>({ drawnIds: [] });
   const [assignmentsA, setAssignmentsA] = useState<Assignment[] | null>(null);
+
+  const [isEnrollModalOpen, setIsEnrollModalOpen] = useState(false);
 
   useEffect(() => {
     const initial = loadInitialState();
@@ -179,25 +179,34 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen">
       <div className="max-w-6xl mx-auto px-4 py-6 md:py-8 space-y-6 md:space-y-8">
-        {/* HERO IN STILE LANDING PAGE */}
-        <Hero />
+        {/* HERO */}
+        <Hero onOpenEnroll={() => setIsEnrollModalOpen(true)} />
 
-        {/* Contenuto principale della SPA */}
+        {/* MODALE ISCRIZIONE */}
+        <Modal
+          isOpen={isEnrollModalOpen && enrollmentOpen}
+          onClose={() => setIsEnrollModalOpen(false)}
+          title="Iscriviti al Secret Santa"
+        >
+          <ParticipantsForm
+            participants={participants}
+            onAdd={handleAddParticipant}
+            disabled={!enrollmentOpen}
+          />
+        </Modal>
+
+        {/* APP */}
         <main
           id="secret-santa-app"
           className="space-y-4 md:space-y-6 scroll-mt-6"
         >
           <section className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 items-start">
             <div>
-              <ParticipantsForm
-                onAdd={handleAddParticipant}
-                disabled={!enrollmentOpen}
-              />
-              <ParticipantsList
-                participants={participants}
-                canEdit={enrollmentOpen}
-                onRemove={handleRemoveParticipant}
-              />
+                <ParticipantsList
+                  participants={participants}
+                  canEdit={enrollmentOpen}
+                  onRemove={handleRemoveParticipant}
+                />
             </div>
 
             <div className="space-y-4 md:space-y-5">
@@ -262,7 +271,6 @@ const App: React.FC = () => {
           </section>
         </main>
 
-        {/*
         <footer className="mt-2 md:mt-4 text-center">
           <p className="text-[11px] text-brightSnow/80">
             Dati salvati in <code className="text-brightSnow">localStorage</code>. Per
@@ -270,7 +278,6 @@ const App: React.FC = () => {
             <code className="text-brightSnow">STORAGE_KEY</code> in <code>App.tsx</code>.
           </p>
         </footer>
-        */}
       </div>
     </div>
   );
