@@ -218,7 +218,7 @@ const App: React.FC = () => {
                       <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-jungleTeal/80 border border-brightSnow/60 text-[10px]">
                         A
                       </span>
-                      <span>Estrazione in anticipo</span>
+                      <span>Estrazione in anticipo → quelli che vivono di ansia strutturale</span>
                     </span>
                     <span className="font-semibold text-brightSnow">
                       {participantsWithPreferenceA}
@@ -229,7 +229,7 @@ const App: React.FC = () => {
                       <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-brickEmber/90 border border-brightSnow/70 text-[10px]">
                         B
                       </span>
-                      <span>Estrazione il giorno dello scambio</span>
+                      <span>Estrazione il giorno dello scambio → fatalisti puri</span>
                     </span>
                     <span className="font-semibold text-brightSnow">
                       {participantsWithPreferenceB}
@@ -262,6 +262,7 @@ const App: React.FC = () => {
           </section>
         </main>
 
+        {/*
         <footer className="mt-2 md:mt-4 text-center">
           <p className="text-[11px] text-brightSnow/80">
             Dati salvati in <code className="text-brightSnow">localStorage</code>. Per
@@ -269,6 +270,7 @@ const App: React.FC = () => {
             <code className="text-brightSnow">STORAGE_KEY</code> in <code>App.tsx</code>.
           </p>
         </footer>
+        */}
       </div>
     </div>
   );

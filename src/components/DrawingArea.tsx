@@ -30,12 +30,11 @@ const DrawingArea: React.FC<DrawingAreaProps> = ({
           🎁 Modalità B: giorno dello scambio
         </h2>
         <span className="text-[11px] text-slate-300">
-          Estrazione casuale senza ripetizioni
+          Tipo roulette russa ma coi regali
         </span>
       </div>
       <p className="text-xs text-slate-300 mb-3">
-        Premi il pulsante per estrarre, in modo casuale e senza ripetizioni, il prossimo
-        partecipante che deve prendere il proprio regalo.
+        Premi il pulsante e pregamo insieme che non esca quello che fa i regali riciclati dal 2009.
       </p>
 
       <div className="flex items-center gap-3 mb-3">

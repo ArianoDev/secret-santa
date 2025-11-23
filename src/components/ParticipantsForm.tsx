@@ -17,8 +17,8 @@ const ParticipantsForm: React.FC<ParticipantsFormProps> = ({ onAdd, disabled }) 
     if (disabled) return;
 
     const newErrors: string[] = [];
-    if (!firstName.trim()) newErrors.push("Il nome è obbligatorio.");
-    if (!lastName.trim()) newErrors.push("Il cognome è obbligatorio.");
+    if (!firstName.trim()) newErrors.push("Il nome è obbligatorio, mica posso indovinarlo.");
+    if (!lastName.trim()) newErrors.push("Il cognome è obbligatorio, sennò pare una lista de Pokémon.");
     if (!preferredMode) newErrors.push("Seleziona una modalità di gioco.");
 
     setErrors(newErrors);
@@ -46,7 +46,7 @@ const ParticipantsForm: React.FC<ParticipantsFormProps> = ({ onAdd, disabled }) 
         </span>
       </div>
       <p className="text-xs text-slate-300 mb-3">
-        Aggiungi i partecipanti e scegli la modalità preferita per ciascuno.
+        Iscriviti lasciando nome, cognome (veri non il nickname di Twich) e la modalità preferita.
       </p>
 
       <form

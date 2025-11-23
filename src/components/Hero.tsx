@@ -47,9 +47,10 @@ const Hero: React.FC = () => {
             </h1>
 
             <p className="max-w-md text-xs md:text-sm text-brightSnow/90">
-              Crea il tuo Secret Santa in pochi click: invita amici e famiglia,
-              organizza lo scambio di regali e rendi ogni festa ancora più
-              memorabile.
+              Iscriviti, Crea il tuo Secret Santa e goditi la festa.
+            </p>
+            <p className="max-w-md text-xs md:text-sm text-brightSnow/90">
+              Se pensi che sia l&apos;occasione giusta per riciclare le mutande di flanella che ti ha fatto tua zia l&apos;anno scorso, sei nel posto sbagliato.
             </p>
 
             <div className="flex flex-wrap items-center gap-3 pt-1">
@@ -64,7 +65,7 @@ const Hero: React.FC = () => {
                 Create Secret Santa
               </button>
               <span className="text-[11px] md:text-xs text-brightSnow/80">
-                Nessuna registrazione obbligatoria, tutto salvato in locale ✨
+                ✨ Nessuna renna verrà maltrattata per organizzare questo evento ✨
               </span>
             </div>
           </div>

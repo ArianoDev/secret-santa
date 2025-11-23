@@ -30,8 +30,7 @@ const AdvanceDrawArea: React.FC<AdvanceDrawAreaProps> = ({
         </span>
       </div>
       <p className="text-xs text-slate-300 mb-3">
-        Genera una mappatura casuale in cui ogni partecipante fa un regalo a un&apos;altra
-        persona. Nessuno risulta come proprio ricevente.
+        Genera la mappatura evitando che uno regali a sé stesso, che sarebbe tipo il boss finale dell’imbarazzo.
       </p>
 
       <div className="flex flex-wrap items-center gap-2 mb-3">
@@ -61,7 +60,7 @@ const AdvanceDrawArea: React.FC<AdvanceDrawAreaProps> = ({
             <thead className="bg-slate-900/90 text-slate-200">
               <tr>
                 <th className="px-3 py-2 text-left">Donatore</th>
-                <th className="px-3 py-2 text-center w-10"></th>
+                <th className="px-3 py-2 text-center w-10">(destino crudele)</th>
                 <th className="px-3 py-2 text-left">Ricevente</th>
               </tr>
             </thead>
