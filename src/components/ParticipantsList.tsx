@@ -19,7 +19,7 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({
     <div className="card mt-4">
       <div className="flex items-center justify-between gap-2 mb-2">
         <h2 className="text-lg font-semibold tracking-tight flex items-center gap-2">
-          🧑‍🎄 Partecipanti iscritti
+          🧑‍🎄 Partecipanti iscritti (finché non se pentono)
         </h2>
         <span className="text-xs text-amber-200 bg-amber-900/40 border border-amber-400/60 rounded-full px-2 py-0.5 flex items-center gap-1">
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />

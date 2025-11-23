@@ -123,7 +123,7 @@ const ParticipantsForm: React.FC<ParticipantsFormProps> = ({ onAdd, disabled }) 
 
         <div className="flex items-center md:col-span-2 lg:col-span-3">
           <button type="submit" disabled={disabled} className="btn-primary">
-            ➕ Aggiungi partecipante
+            + Aggiungi partecipante
           </button>
         </div>
       </form>

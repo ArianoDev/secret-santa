@@ -20,12 +20,6 @@ const Hero: React.FC = () => {
           <div className="flex items-center gap-2">
             <button
               type="button"
-              className="rounded-full border border-brightSnow/70 bg-transparent px-3 py-1 text-[11px] md:text-xs font-medium hover:bg-brightSnow/10 transition-colors"
-            >
-              Log in
-            </button>
-            <button
-              type="button"
               className="rounded-full bg-brightSnow px-3.5 py-1 text-[11px] md:text-xs font-semibold text-flagRed shadow-md shadow-brickEmber/40 hover:bg-brightSnow/90 transition-colors"
               onClick={() => {
                 const el = document.getElementById("secret-santa-app");
