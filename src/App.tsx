@@ -191,12 +191,12 @@ const App: React.FC = () => {
 
         {/* Stato globale / errori */}
         {loadingAll && (
-          <div className="card-soft text-xs text-brightSnow">
+          <div className="card-soft text-xs text-brightSnow mb-4">
             ⏳ Carico tutto dal backend… (tranquillo, più lento di così solo l’INPS)
           </div>
         )}
         {globalError && (
-          <div className="card-soft border-red-500/60 bg-red-950/40 text-xs text-red-100">
+          <div className="card-soft border-red-500/60 bg-red-950/40 text-xs text-red-100 mb-4">
             ⚠️ {globalError}
           </div>
         )}
@@ -251,11 +251,6 @@ const App: React.FC = () => {
                     </span>
                   </li>
                 </ul>
-                <p className="mt-2 text-[11px] text-brightSnow/80">
-                  Al momento l&apos;estrazione funzionale usa tutti i partecipanti,
-                  indipendentemente dalla preferenza. Puoi usare queste statistiche per
-                  decidere con il gruppo quale modalità adottare.
-                </p>
               </div>
 
               {!enrollmentOpen && (
