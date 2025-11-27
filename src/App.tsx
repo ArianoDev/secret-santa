@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
 import {
-  AppStorageState,
   Assignment,
   DrawStateB,
   GameMode,
@@ -15,156 +14,149 @@ import AdvanceDrawArea from "./components/AdvanceDrawArea";
 import Hero from "./components/Hero";
 import Modal from "./components/Modal";
 
-const STORAGE_KEY = "secret-santa-app-v2";
-
-function loadInitialState(): AppStorageState {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) {
-      return {
-        participants: [],
-        enrollmentOpen: true,
-        drawStateB: { drawnIds: [] },
-        assignmentsA: null,
-      };
-    }
-    const parsed = JSON.parse(raw) as AppStorageState;
-    return {
-      participants: parsed.participants ?? [],
-      enrollmentOpen: parsed.enrollmentOpen ?? true,
-      drawStateB: parsed.drawStateB ?? { drawnIds: [] },
-      assignmentsA: parsed.assignmentsA ?? null,
-    };
-  } catch {
-    return {
-      participants: [],
-      enrollmentOpen: true,
-      drawStateB: { drawnIds: [] },
-      assignmentsA: null,
-    };
-  }
-}
-
-function persistState(state: AppStorageState) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-}
-
-function generateId() {
-  return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
-}
-
-function generateDerangement(n: number): number[] {
-  if (n <= 1) return [];
-
-  const indices = Array.from({ length: n }, (_, i) => i);
-  const isDerangement = (perm: number[]) =>
-    perm.every((val, idx) => val !== idx);
-
-  let attempt = 0;
-  while (true) {
-    attempt++;
-    const perm = [...indices];
-
-    for (let i = perm.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [perm[i], perm[j]] = [perm[j], perm[i]];
-    }
-
-    if (isDerangement(perm)) {
-      return perm;
-    }
-
-    if (attempt > 1000) {
-      console.warn("Impossibile generare derangement dopo molti tentativi");
-      return perm;
-    }
-  }
-}
+import {
+  apiAddParticipant,
+  apiDeleteParticipant,
+  apiDrawNextB,
+  apiGenerateAssignmentsA,
+  apiGetAssignmentsA,
+  apiGetDrawsB,
+  apiGetParticipants,
+  DrawBEntry,
+} from "./apiClient";
 
 const App: React.FC = () => {
   const [participants, setParticipants] = useState<Participant[]>([]);
-  const [enrollmentOpen, setEnrollmentOpen] = useState<boolean>(true);
-  const [drawStateB, setDrawStateB] = useState<DrawStateB>({ drawnIds: [] });
+  const [drawsB, setDrawsB] = useState<DrawBEntry[]>([]);
   const [assignmentsA, setAssignmentsA] = useState<Assignment[] | null>(null);
+
+  const [enrollmentOpen, setEnrollmentOpen] = useState<boolean>(true);
 
   const [isEnrollModalOpen, setIsEnrollModalOpen] = useState(false);
 
+  const [loadingAll, setLoadingAll] = useState<boolean>(true);
+  const [loadingAction, setLoadingAction] = useState<boolean>(false);
+  const [globalError, setGlobalError] = useState<string | null>(null);
+
+  // ---- Helper di caricamento ----
+
+  const loadParticipants = async () => {
+    const data = await apiGetParticipants();
+    setParticipants(data);
+  };
+
+  const loadDraws = async () => {
+    const data = await apiGetDrawsB();
+    setDrawsB(data);
+  };
+
+  const loadAssignments = async () => {
+    const data = await apiGetAssignmentsA();
+    setAssignmentsA(data.length > 0 ? data : null);
+  };
+
+  const loadAll = async () => {
+    setLoadingAll(true);
+    setGlobalError(null);
+    try {
+      await Promise.all([loadParticipants(), loadDraws(), loadAssignments()]);
+    } catch (err: any) {
+      console.error(err);
+      setGlobalError(err.message || "Errore nel caricare i dati dal backend.");
+    } finally {
+      setLoadingAll(false);
+    }
+  };
+
   useEffect(() => {
-    const initial = loadInitialState();
-    setParticipants(initial.participants);
-    setEnrollmentOpen(initial.enrollmentOpen);
-    setDrawStateB(initial.drawStateB);
-    setAssignmentsA(initial.assignmentsA);
+    // all'avvio, carica tutto dal backend
+    void loadAll();
   }, []);
 
-  useEffect(() => {
-    const state: AppStorageState = {
-      participants,
-      enrollmentOpen,
-      drawStateB,
-      assignmentsA,
-    };
-    persistState(state);
-  }, [participants, enrollmentOpen, drawStateB, assignmentsA]);
+  // ---- Azioni ----
 
-  const handleAddParticipant = (data: {
+  const handleAddParticipant = async (data: {
     firstName: string;
     lastName: string;
     preferredMode: GameMode;
   }) => {
-    const newParticipant: Participant = {
-      id: generateId(),
-      ...data,
-    };
-    setParticipants((prev) => [...prev, newParticipant]);
+    setLoadingAction(true);
+    setGlobalError(null);
+    try {
+      await apiAddParticipant(data);
+      await loadAll(); // ricarica tutto (partecipanti, draws, assignments)
+    } catch (err: any) {
+      console.error(err);
+      setGlobalError(err.message || "Errore nell'aggiunta partecipante.");
+    } finally {
+      setLoadingAction(false);
+    }
   };
 
-  const handleRemoveParticipant = (id: string) => {
-    setParticipants((prev) => prev.filter((p) => p.id !== id));
+  const handleRemoveParticipant = async (id: string) => {
+    setLoadingAction(true);
+    setGlobalError(null);
+    try {
+      await apiDeleteParticipant(id);
+      await loadAll();
+    } catch (err: any) {
+      console.error(err);
+      setGlobalError(err.message || "Errore nella rimozione partecipante.");
+    } finally {
+      setLoadingAction(false);
+    }
   };
 
   const handleCloseEnrollment = () => {
     setEnrollmentOpen(false);
-    setDrawStateB({ drawnIds: [] });
-    setAssignmentsA(null);
+    // Nota: stato solo frontend; se vuoi
+    // potresti persisterlo su backend o localStorage
   };
 
   const handleReopenEnrollment = () => {
     setEnrollmentOpen(true);
-    setDrawStateB({ drawnIds: [] });
-    setAssignmentsA(null);
+    // opzionale: potresti anche voler resettare draws/assignments lato backend
   };
 
-  const handleDrawNextB = () => {
-    if (participants.length === 0) return;
-
-    const remaining = participants.filter(
-      (p) => !drawStateB.drawnIds.includes(p.id)
-    );
-
-    if (remaining.length === 0) return;
-
-    const randomIndex = Math.floor(Math.random() * remaining.length);
-    const chosen = remaining[randomIndex];
-
-    setDrawStateB((prev) => ({
-      drawnIds: [...prev.drawnIds, chosen.id],
-    }));
+  const handleDrawNextB = async () => {
+    setLoadingAction(true);
+    setGlobalError(null);
+    try {
+      await apiDrawNextB();
+      await loadDraws();
+    } catch (err: any) {
+      console.error(err);
+      setGlobalError(
+        err.message || "Errore durante l'estrazione del prossimo partecipante."
+      );
+    } finally {
+      setLoadingAction(false);
+    }
   };
 
-  const handleGenerateAssignmentsA = () => {
-    if (participants.length < 2) return;
-
-    const n = participants.length;
-    const derangement = generateDerangement(n);
-
-    const newAssignments: Assignment[] = participants.map((p, idx) => ({
-      giverId: p.id,
-      receiverId: participants[derangement[idx]].id,
-    }));
-
-    setAssignmentsA(newAssignments);
+  const handleGenerateAssignmentsA = async () => {
+    setLoadingAction(true);
+    setGlobalError(null);
+    try {
+      const data = await apiGenerateAssignmentsA();
+      setAssignmentsA(data);
+    } catch (err: any) {
+      console.error(err);
+      setGlobalError(
+        err.message || "Errore durante la generazione degli abbinamenti."
+      );
+    } finally {
+      setLoadingAction(false);
+    }
   };
+
+  // Deriva DrawStateB dalla lista delle estrazioni
+  const drawStateB: DrawStateB = useMemo(
+    () => ({
+      drawnIds: drawsB.map((d) => d.participantId),
+    }),
+    [drawsB]
+  );
 
   const participantsWithPreferenceA = useMemo(
     () => participants.filter((p) => p.preferredMode === "A").length,
@@ -175,6 +167,8 @@ const App: React.FC = () => {
     () => participants.filter((p) => p.preferredMode === "B").length,
     [participants]
   );
+
+  const isBusy = loadingAll || loadingAction;
 
   return (
     <div className="min-h-screen">
@@ -191,9 +185,21 @@ const App: React.FC = () => {
           <ParticipantsForm
             participants={participants}
             onAdd={handleAddParticipant}
-            disabled={!enrollmentOpen}
+            disabled={!enrollmentOpen || isBusy}
           />
         </Modal>
+
+        {/* Stato globale / errori */}
+        {loadingAll && (
+          <div className="card-soft text-xs text-brightSnow">
+            ⏳ Carico tutto dal backend… (tranquillo, più lento di così solo l’INPS)
+          </div>
+        )}
+        {globalError && (
+          <div className="card-soft border-red-500/60 bg-red-950/40 text-xs text-red-100">
+            ⚠️ {globalError}
+          </div>
+        )}
 
         {/* APP */}
         <main
@@ -204,7 +210,7 @@ const App: React.FC = () => {
             <div>
                 <ParticipantsList
                   participants={participants}
-                  canEdit={enrollmentOpen}
+                  canEdit={enrollmentOpen && !isBusy}
                   onRemove={handleRemoveParticipant}
                 />
             </div>
@@ -258,12 +264,14 @@ const App: React.FC = () => {
                     participants={participants}
                     drawState={drawStateB}
                     onDrawNext={handleDrawNextB}
+                    disabled={isBusy}
                   />
 
                   <AdvanceDrawArea
                     participants={participants}
                     assignments={assignmentsA}
                     onGenerateAssignments={handleGenerateAssignmentsA}
+                    disabled={isBusy}
                   />
                 </>
               )}
@@ -273,9 +281,9 @@ const App: React.FC = () => {
 
         <footer className="mt-2 md:mt-4 text-center">
           <p className="text-[11px] text-brightSnow/80">
-            Dati salvati in <code className="text-brightSnow">localStorage</code>. Per
-            azzerare tutto, svuota la cache/localStorage del sito o modifica la chiave{" "}
-            <code className="text-brightSnow">STORAGE_KEY</code> in <code>App.tsx</code>.
+            Dati ora salvati su <code className="text-brightSnow">PostgreSQL</code>{" "}
+            tramite il backend Node/Express. Il localStorage lo usiamo solo
+            nei flashback.
           </p>
         </footer>
       </div>

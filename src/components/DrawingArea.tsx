@@ -5,12 +5,14 @@ interface DrawingAreaProps {
   participants: Participant[];
   drawState: DrawStateB;
   onDrawNext: () => void;
+  disabled?: boolean;
 }
 
 const DrawingArea: React.FC<DrawingAreaProps> = ({
   participants,
   drawState,
   onDrawNext,
+  disabled
 }) => {
   const total = participants.length;
   const drawnCount = drawState.drawnIds.length;

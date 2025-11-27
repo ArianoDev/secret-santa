@@ -17,10 +17,3 @@ export interface Assignment {
   giverId: string;
   receiverId: string;
 }
-
-export interface AppStorageState {
-  participants: Participant[];
-  enrollmentOpen: boolean;
-  drawStateB: DrawStateB;
-  assignmentsA: Assignment[] | null;
-}

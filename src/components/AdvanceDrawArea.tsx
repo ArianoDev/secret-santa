@@ -5,12 +5,14 @@ interface AdvanceDrawAreaProps {
   participants: Participant[];
   assignments: Assignment[] | null;
   onGenerateAssignments: () => void;
+  disabled?: boolean;
 }
 
 const AdvanceDrawArea: React.FC<AdvanceDrawAreaProps> = ({
   participants,
   assignments,
   onGenerateAssignments,
+  disabled
 }) => {
   const hasAssignments = !!assignments && assignments.length > 0;
 
