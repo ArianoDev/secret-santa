@@ -19,7 +19,7 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({
     <div className="card">
       <div className="flex items-center justify-between gap-2 mb-2">
         <h2 className="text-lg font-semibold tracking-tight flex items-center gap-2">
-          🧑‍🎄 Partecipanti iscritti (finché non se pentono)
+          🧑‍🎄 Partecipanti iscritti (finché non se ne pentono)
         </h2>
         <span className="text-xs text-amber-200 bg-amber-900/40 border border-amber-400/60 rounded-full px-2 py-0.5 flex items-center gap-1">
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
@@ -28,8 +28,7 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({
       </div>
       {participants.length === 0 ? (
         <p className="text-xs text-slate-300">
-                         
-          Nessun partecipante ancora iscritto. Inizia aggiungendo qualcuno 🎁
+          Nessun partecipante ancora iscritto 🎁
         </p>
       ) : (
         <div className="mt-2 rounded-xl border border-slate-800/80 overflow-hidden">

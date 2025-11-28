@@ -5,6 +5,7 @@ interface EnrollmentControlsProps {
   hasParticipants: boolean;
   onClose: () => void;
   onReopen: () => void;
+  canClose?: boolean;
 }
 
 const EnrollmentControls: React.FC<EnrollmentControlsProps> = ({
@@ -12,7 +13,11 @@ const EnrollmentControls: React.FC<EnrollmentControlsProps> = ({
   hasParticipants,
   onClose,
   onReopen,
+  canClose = false,
 }) => {
+//const disableClose = !enrollmentOpen || !hasParticipants || !canClose;
+const disableClose = !canClose;
+
   return (
     <div className="card-soft">
       <div className="flex items-center justify-between gap-3 mb-2">
@@ -31,7 +36,7 @@ const EnrollmentControls: React.FC<EnrollmentControlsProps> = ({
             type="button"
             className="btn-primary"
             onClick={onClose}
-            disabled={!hasParticipants}
+            disabled={disableClose}
             title={
               hasParticipants
                 ? "Chiudi definitivamente le iscrizioni"
@@ -56,9 +61,6 @@ const EnrollmentControls: React.FC<EnrollmentControlsProps> = ({
           >
             🔁 Riapri iscrizioni (debug)
           </button>
-          <span className="text-[11px] text-slate-400">
-            In produzione puoi rimuovere questo pulsante.
-          </span>
         </div>
       )}
     </div>

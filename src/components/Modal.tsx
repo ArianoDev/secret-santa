@@ -12,7 +12,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, title, onClose, children }) => {
 
   return (
     <div id="mymodal" className="fixed inset-0 z-40 flex items-center justify-center bg-black/70 backdrop-blur-sm">
-      <div className="relative max-h-[90vh] w-full max-w-lg overflow-hidden rounded-3xl bg-slate-950/95 border border-blueSpruce/70 shadow-2xl shadow-black/80">
+      <div className="relative max-h-[90vh]max-w-xl overflow-hidden rounded-3xl bg-slate-950/95 border border-blueSpruce/70 shadow-2xl shadow-black/80">
         {/* Header */}
         <div className="flex items-center justify-between px-5 pt-4 pb-2 border-b border-slate-800/70">
           <h2 className="text-sm font-semibold tracking-tight text-brightSnow">

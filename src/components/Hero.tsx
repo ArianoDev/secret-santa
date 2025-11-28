@@ -2,18 +2,28 @@ import React from "react";
 
 interface HeroProps {
   onOpenEnroll: () => void;
+  onOpenRules: () => void;
 }
 
-const Hero: React.FC<HeroProps> = ({ onOpenEnroll }) => {
+const Hero: React.FC<HeroProps> = ({ onOpenEnroll, onOpenRules }) => {
   return (
     <section className="mb-6 md:mb-8">
       <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-brickEmber via-flagRed to-brickEmber px-5 md:px-10 py-6 md:py-10 text-brightSnow shadow-xmas-soft">
         {/* Decor: piccoli fiocchi */}
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -left-10 top-6 h-24 w-24 rounded-full border border-brightSnow/15" />
+          <div className="absolute -left-10 top-6 h-24 w-24 rounded-full bg-brightSnow/15" />
           <div className="absolute right-10 top-10 h-4 w-4 rounded-full bg-brightSnow/15" />
           <div className="absolute right-24 bottom-6 h-2 w-2 rounded-full bg-brightSnow/20" />
-          <div className="absolute left-1/3 bottom-10 h-2 w-2 rounded-full bg-brightSnow/30" />
+          <div className="absolute right-16 bottom-10 h-2 w-2 rounded-full bg-brightSnow/30" />
+          <div className="absolute left-10 bottom-6 h-4 w-4 rounded-full bg-brightSnow/20" />
+          <div className="absolute left-16 bottom-3 h-2 w-2 rounded-full bg-brightSnow/30" />
+          <div className="absolute left-24 bottom-12 h-4 w-4 rounded-full bg-brightSnow/30" />
+          <div className="absolute left-1/2 bottom-1/2 h-8 w-8 rounded-full bg-brightSnow/20" />
+          <div className="absolute left-64 bottom-40 h-4 w-4 rounded-full bg-brightSnow/30" />
+          <div className="absolute left-52 bottom-45 h-4 w-4 rounded-full bg-brightSnow/30" />
+          <div className="absolute right-10 top-6 h-4 w-4 rounded-full bg-brightSnow/20" />
+          <div className="absolute right-16 top-3 h-2 w-2 rounded-full bg-brightSnow/30" />
+          <div className="absolute right-24 top-16 h-4 w-4 rounded-full bg-brightSnow/30" />
         </div>
 
         <div className="relative mb-6 flex items-center justify-between text-xs md:text-sm">
@@ -24,9 +34,9 @@ const Hero: React.FC<HeroProps> = ({ onOpenEnroll }) => {
             <button
               type="button"
               className="rounded-full bg-brightSnow px-3.5 py-1 text-[11px] md:text-xs font-semibold text-flagRed shadow-md shadow-brickEmber/40 hover:bg-brightSnow/90 transition-colors"
-              onClick={onOpenEnroll}
+              onClick={onOpenRules}
             >
-              Join
+              Regolamento
             </button>
           </div>
         </div>
@@ -146,38 +156,6 @@ const Hero: React.FC<HeroProps> = ({ onOpenEnroll }) => {
                     </g>
                   </g>
                 </svg>
-              </div>
-            </div>
-
-            {/* Orbite decorative tipo timeline regali */}
-            <div className="pointer-events-none absolute inset-0">
-              <svg
-                className="absolute inset-0 h-full w-full"
-                viewBox="0 0 300 300"
-              >
-                <path
-                  d="M20,220 C80,140 220,140 280,60"
-                  fill="none"
-                  stroke="rgba(250,248,248,0.25)"
-                  strokeWidth="1.5"
-                  strokeDasharray="4 4"
-                />
-              </svg>
-              <div className="absolute left-6 bottom-10 flex flex-col items-center gap-1">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-brightSnow text-[16px] shadow-md shadow-brickEmber/50">
-                  🎁
-                </div>
-                <span className="text-[10px] font-medium text-brightSnow/90">
-                  Gift ideas
-                </span>
-              </div>
-              <div className="absolute right-4 top-16 flex flex-col items-center gap-1">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-brightSnow text-[16px] shadow-md shadow-brickEmber/50">
-                  🎉
-                </div>
-                <span className="text-[10px] font-medium text-brightSnow/90">
-                  Invite friends
-                </span>
               </div>
             </div>
           </div>

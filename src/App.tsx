@@ -24,6 +24,7 @@ import {
   apiGetParticipants,
   DrawBEntry,
 } from "./apiClient";
+import SecretSantaRules from "./components/SecretSantaRules";
 
 const App: React.FC = () => {
   const [participants, setParticipants] = useState<Participant[]>([]);
@@ -33,10 +34,13 @@ const App: React.FC = () => {
   const [enrollmentOpen, setEnrollmentOpen] = useState<boolean>(true);
 
   const [isEnrollModalOpen, setIsEnrollModalOpen] = useState(false);
+  const [isRulesModalOpen, setIsRulesModalOpen] = useState(false);
 
   const [loadingAll, setLoadingAll] = useState<boolean>(true);
   const [loadingAction, setLoadingAction] = useState<boolean>(false);
   const [globalError, setGlobalError] = useState<string | null>(null);
+
+  const [isAdmin, setIsAdmin] = useState(false);
 
   // ---- Helper di caricamento ----
 
@@ -71,6 +75,25 @@ const App: React.FC = () => {
   useEffect(() => {
     // all'avvio, carica tutto dal backend
     void loadAll();
+  }, []);
+
+  useEffect(() => {
+    // 1. se ho già salvato l’admin in localStorage, lo riuso
+    const stored = localStorage.getItem("secret-santa-admin") === "1";
+    if (stored) {
+      setIsAdmin(true);
+      return;
+    }
+
+    // 2. leggo un token dalla query (es. ?adminCode=XYZ)
+    const params = new URLSearchParams(window.location.search);
+    const codeFromUrl = params.get("adminCode");
+    const expectedCode = import.meta.env.VITE_ADMIN_CODE;
+
+    if (codeFromUrl && expectedCode && codeFromUrl === expectedCode) {
+      setIsAdmin(true);
+      localStorage.setItem("secret-santa-admin", "1");
+    }
   }, []);
 
   // ---- Azioni ----
@@ -174,7 +197,7 @@ const App: React.FC = () => {
     <div className="min-h-screen">
       <div className="max-w-6xl mx-auto px-4 py-6 md:py-8">
         {/* HERO */}
-        <Hero onOpenEnroll={() => setIsEnrollModalOpen(true)} />
+        <Hero onOpenEnroll={() => setIsEnrollModalOpen(true)} onOpenRules={() => setIsRulesModalOpen(true)} />
 
         {/* MODALE ISCRIZIONE */}
         <Modal
@@ -189,15 +212,24 @@ const App: React.FC = () => {
           />
         </Modal>
 
+        {/* MODALE REGOLAMENTO */}
+        <Modal
+          isOpen={isRulesModalOpen}
+          onClose={() => setIsRulesModalOpen(false)}
+          title="Come funziona il Secret Santa - Rhi Edition"
+        >
+          <SecretSantaRules />
+        </Modal>
+
         {/* Stato globale / errori */}
         {loadingAll && (
           <div className="card-soft text-xs text-brightSnow mb-4">
-            ⏳ Carico tutto dal backend… (tranquillo, più lento di così solo l’INPS)
+            ⏳ Sto carico tutto dal backend…non ti lamentare ti sto dando una scusa per non lavorare!
           </div>
         )}
         {globalError && (
           <div className="card-soft border-red-500/60 bg-red-950/40 text-xs text-red-100 mb-4">
-            ⚠️ {globalError}
+            ⚠️ {globalError} → Avvisa Fabrizio ma cerca di essere gentile, ha già un sacco di problemi di suo!
           </div>
         )}
 
@@ -216,16 +248,9 @@ const App: React.FC = () => {
             </div>
 
             <div className="space-y-4 md:space-y-5">
-              <EnrollmentControls
-                enrollmentOpen={enrollmentOpen}
-                hasParticipants={participants.length > 0}
-                onClose={handleCloseEnrollment}
-                onReopen={handleReopenEnrollment}
-              />
-
               <div className="card-soft">
                 <h3 className="text-sm font-semibold tracking-tight mb-1 flex items-center gap-2">
-                  📊 Statistiche modalità
+                  📊 Il Sondaggione
                 </h3>
                 <ul className="text-xs text-brightSnow space-y-1">
                   <li className="flex items-center justify-between">
@@ -253,6 +278,14 @@ const App: React.FC = () => {
                 </ul>
               </div>
 
+              <EnrollmentControls
+                enrollmentOpen={enrollmentOpen}
+                hasParticipants={participants.length > 0}
+                onClose={handleCloseEnrollment}
+                onReopen={handleReopenEnrollment}
+                canClose={isAdmin}
+              />
+
               {!enrollmentOpen && (
                 <>
                   <DrawingArea
@@ -276,9 +309,7 @@ const App: React.FC = () => {
 
         <footer className="mt-2 md:mt-4 text-center">
           <p className="text-[11px] text-brightSnow/80">
-            Dati ora salvati su <code className="text-brightSnow">PostgreSQL</code>{" "}
-            tramite il backend Node/Express. Il localStorage lo usiamo solo
-            nei flashback.
+            Secret Santa Rhi Edition &#169; - questa applicazione non è stata sviluppata da quella famosa azienda che finisce per H 
           </p>
         </footer>
       </div>

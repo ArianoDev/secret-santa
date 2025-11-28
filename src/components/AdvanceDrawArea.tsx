@@ -27,9 +27,6 @@ const AdvanceDrawArea: React.FC<AdvanceDrawAreaProps> = ({
         <h2 className="text-lg font-semibold tracking-tight flex items-center gap-2">
           🌟 Modalità A: estrazione in anticipo
         </h2>
-        <span className="text-[11px] text-slate-300">
-          Derangement: nessuno regala a sé stesso
-        </span>
       </div>
       <p className="text-xs text-slate-300 mb-3">
         Genera la mappatura evitando che uno regali a sé stesso, che sarebbe tipo il boss finale dell’imbarazzo.

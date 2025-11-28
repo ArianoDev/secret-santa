@@ -46,7 +46,7 @@ const DrawingArea: React.FC<DrawingAreaProps> = ({
           onClick={onDrawNext}
           disabled={allDrawn || total === 0}
         >
-          🎄 Estrai prossimo partecipante
+          🎄 Estrai il prossimo partecipante
         </button>
         <p className="text-[11px] text-slate-300">
           Estratti:{" "}
