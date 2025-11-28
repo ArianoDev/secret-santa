@@ -83,12 +83,6 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({
           </table>
         </div>
       )}
-
-      {!canEdit && (
-        <p className="mt-2 text-[11px] text-slate-400">
-          Le iscrizioni sono chiuse: non è più possibile modificare l&apos;elenco.
-        </p>
-      )}
     </div>
   );
 };
