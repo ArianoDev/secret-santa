@@ -242,7 +242,7 @@ const App: React.FC = () => {
             <div>
                 <ParticipantsList
                   participants={participants}
-                  canEdit={enrollmentOpen && !isBusy && isAdmin}
+                  canEdit={isAdmin}
                   onRemove={handleRemoveParticipant}
                 />
             </div>
