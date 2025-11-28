@@ -45,11 +45,9 @@ const disableClose = !canClose;
           >
             🔒 Chiudi iscrizioni
           </button>
-          {!hasParticipants && (
             <span className="text-[11px] text-slate-300">
-              Devi avere almeno un partecipante per chiudere le iscrizioni.
+              Solo chi è veramente degno potrà chiudere le iscrizioni.
             </span>
-          )}
         </div>
       ) : (
         <div className="flex flex-wrap items-center gap-2">
@@ -57,9 +55,9 @@ const disableClose = !canClose;
             type="button"
             className="btn-secondary"
             onClick={onReopen}
-            title="Solo per test: riapre le iscrizioni e resetta estrazioni/abbinamenti."
+            title="Riapre le iscrizioni e resetta estrazioni/abbinamenti."
           >
-            🔁 Riapri iscrizioni (debug)
+            🔁 Riapri iscrizioni
           </button>
         </div>
       )}
