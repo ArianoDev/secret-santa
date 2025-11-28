@@ -224,7 +224,7 @@ const App: React.FC = () => {
         {/* Stato globale / errori */}
         {loadingAll && (
           <div className="card-soft text-xs text-brightSnow mb-4">
-            ⏳ Sto carico tutto dal backend…non ti lamentare ti sto dando una scusa per non lavorare!
+            ⏳ Sto caricando tutto dal backend…non ti lamentare ti sto dando una scusa per non lavorare!
           </div>
         )}
         {globalError && (
