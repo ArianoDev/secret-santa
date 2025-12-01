@@ -39,7 +39,9 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({
                 <th className="px-3 py-2 text-left">Nome</th>
                 <th className="px-3 py-2 text-left">Cognome</th>
                 <th className="px-3 py-2 text-left">Modalità preferita</th>
+                {canEdit && (
                 <th className="px-3 py-2 text-right w-20"></th>
+                )}
               </tr>
             </thead>
             <tbody>
