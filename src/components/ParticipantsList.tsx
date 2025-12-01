@@ -67,16 +67,17 @@ const ParticipantsList: React.FC<ParticipantsListProps> = ({
                       </span>
                     </span>
                   </td>
+                  { canEdit && (
                   <td className="px-3 py-2 text-right">
                     <button
                       type="button"
-                      disabled={!canEdit}
                       onClick={() => onRemove(p.id)}
                       className="btn-danger"
                     >
                       Rimuovi
                     </button>
                   </td>
+                  )}
                 </tr>
               ))}
             </tbody>
